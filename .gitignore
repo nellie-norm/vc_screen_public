@@ -1,0 +1,23 @@
+# Virtual environment
+venv/
+
+# API keys
+.api_key
+.perplexity_key
+.companies_house_key
+
+# Python cache
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Claude settings
+.claude/
+
+# Sensitive business data
+memos/
+uploads/
+*.pdf
+.secrets.toml

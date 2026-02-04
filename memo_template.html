@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{COMPANY_NAME}} — Bramble Investment Memo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bramble-green: #2d3b1f;
+            --bramble-green-light: #4a5d35;
+            --bramble-cream: #f7f6f3;
+            --bramble-gold: #b8a065;
+            --text-dark: #1a1a1a;
+            --text-gray: #666666;
+            --text-light: #999999;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print { display: none; }
+            .page-break { page-break-before: always; }
+        }
+
+        body {
+            font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: var(--bramble-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 40px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        .header {
+            padding: 60px 50px 40px;
+            text-align: center;
+            border-bottom: none;
+            background: linear-gradient(180deg, var(--bramble-cream) 0%, white 100%);
+        }
+
+        .logo {
+            height: 120px;
+            margin-bottom: 20px;
+        }
+
+        .header-text {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--bramble-green);
+            margin-bottom: 30px;
+        }
+
+        .meta {
+            font-size: 12px;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .meta span {
+            margin-right: 20px;
+        }
+
+
+        /* Title block */
+        .title-block {
+            padding: 40px 50px;
+            border-bottom: 3px solid var(--bramble-green);
+        }
+
+        .company-name {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 42px;
+            font-weight: 500;
+            color: var(--bramble-green);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 18px;
+            font-style: italic;
+            color: var(--text-gray);
+            font-weight: 400;
+        }
+
+        /* Content */
+        .content {
+            padding: 0 50px 50px;
+        }
+
+        /* Sections */
+        .section {
+            padding: 30px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--bramble-green);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            margin-bottom: 12px;
+        }
+
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Snapshot */
+        .snapshot {
+            background: var(--bramble-cream);
+            padding: 25px;
+            border-radius: 4px;
+        }
+
+        .snapshot-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .snapshot-row:last-child {
+            border-bottom: none;
+        }
+
+        .snapshot-label {
+            font-weight: 600;
+            width: 140px;
+            flex-shrink: 0;
+            color: var(--text-gray);
+        }
+
+        .snapshot-value {
+            flex: 1;
+        }
+
+        /* Verdict */
+        .verdict-section {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .verdict {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 52px;
+            font-weight: 500;
+            letter-spacing: 4px;
+        }
+
+        .verdict.pursue { color: var(--bramble-green); }
+        .verdict.pass { color: #8B0000; }
+        .verdict.monitor { color: var(--bramble-gold); }
+
+        .verdict-rationale {
+            max-width: 500px;
+            margin: 20px auto 0;
+            font-size: 16px;
+            color: var(--text-gray);
+        }
+
+        .confidence {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .confidence.high { color: var(--bramble-green); }
+        .confidence.medium { color: var(--bramble-gold); }
+        .confidence.low { color: #8B0000; }
+
+        /* Bull/Bear case styling */
+        .cases-container {
+            display: flex;
+            gap: 30px;
+        }
+
+        .case-column {
+            flex: 1;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .case-column.bull-section {
+            border-left: 4px solid var(--bramble-green);
+            background: rgba(45, 59, 31, 0.03);
+        }
+
+        .case-column.bear-section {
+            border-left: 4px solid #8B0000;
+            background: rgba(139, 0, 0, 0.03);
+        }
+
+        @media print {
+            .cases-container {
+                display: flex;
+            }
+        }
+
+        .case-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .case-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .case-list li:last-child {
+            border-bottom: none;
+        }
+
+        .case-list.bull .case-title {
+            color: var(--bramble-green);
+            font-weight: 600;
+        }
+
+        .case-list.bear .case-title {
+            color: #8B0000;
+            font-weight: 600;
+        }
+
+        /* Key debates styling */
+        .debates-section {
+            background: #f9f9f9;
+            margin: 0 -50px;
+            padding: 30px 50px;
+        }
+
+        .debates-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .debates-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .debates-list li:last-child {
+            border-bottom: none;
+        }
+
+        .debate-question {
+            display: block;
+            font-weight: 600;
+            color: var(--bramble-green);
+            margin-bottom: 5px;
+        }
+
+        .debate-views {
+            display: block;
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        /* Fit table */
+        .fit-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .fit-table th {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 0;
+            border-bottom: 2px solid var(--bramble-green);
+        }
+
+        .fit-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+
+        .fit-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .fit-table .criterion {
+            font-weight: 500;
+            width: 160px;
+        }
+
+        .fit-table .rating {
+            width: 100px;
+            padding-right: 15px;
+        }
+
+        .rating-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .rating-badge.strong {
+            background: var(--bramble-green);
+            color: white;
+        }
+
+        .rating-badge.moderate {
+            background: var(--bramble-gold);
+            color: white;
+        }
+
+        .rating-badge.weak {
+            background: #ddd;
+            color: #666;
+        }
+
+        .overall-fit {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid var(--bramble-green);
+            font-size: 14px;
+        }
+
+        .overall-fit strong {
+            color: var(--bramble-green);
+        }
+
+        /* Risks */
+        .risk-list {
+            list-style: none;
+        }
+
+        .risk-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .risk-list li:last-child {
+            border-bottom: none;
+        }
+
+        .risk-title {
+            font-weight: 600;
+            color: var(--bramble-green);
+        }
+
+        /* Terms */
+        .terms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .term-item {
+            background: var(--bramble-cream);
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+.term-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .term-value {
+            font-weight: 500;
+        }
+
+        .term-rationale {
+            font-size: 12px;
+            color: var(--text-gray);
+            font-style: italic;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* DD priorities */
+        .dd-list {
+            list-style: none;
+            counter-reset: dd-counter;
+        }
+
+        .dd-list li {
+            counter-increment: dd-counter;
+            padding: 10px 0 10px 35px;
+            position: relative;
+        }
+
+        .dd-list li::before {
+            content: counter(dd-counter);
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 22px;
+            height: 22px;
+            background: var(--bramble-green);
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Bottom line */
+        .bottom-line {
+            background: var(--bramble-green);
+            color: white;
+            padding: 30px;
+            border-radius: 4px;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 30px 50px;
+            background: var(--bramble-cream);
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        /* Bold text */
+        strong, b {
+            font-weight: 600;
+        }
+
+        /* Citation links */
+        a.citation {
+            color: var(--bramble-green);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--bramble-green);
+        }
+
+        a.citation:hover {
+            border-bottom-style: solid;
+        }
+
+        a.citation::after {
+            content: "↗";
+            font-size: 10px;
+            margin-left: 2px;
+            opacity: 0.6;
+        }
+
+        /* Info gaps */
+        .info-gaps {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff9e6;
+            border-left: 3px solid var(--bramble-gold);
+            font-size: 14px;
+        }
+
+        .info-gaps-title {
+            font-weight: 600;
+            color: var(--bramble-gold);
+            margin-bottom: 5px;
+        }
+
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bramble-green);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .print-btn:hover {
+            background: var(--bramble-green-light);
+        }
+
+        /* Analyst Appendix - Collapsible Sections */
+        .analyst-appendix {
+            margin-top: 40px;
+            padding: 30px 50px;
+            background: #fafafa;
+            border-top: 1px solid #eee;
+        }
+
+        .appendix-header {
+            margin-bottom: 20px;
+        }
+
+        .appendix-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .analyst-section {
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .analyst-toggle {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: background 0.2s;
+        }
+
+        .analyst-toggle:hover {
+            background: #f5f5f5;
+        }
+
+        .analyst-section[open] .analyst-toggle {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .toggle-icon {
+            margin-right: 10px;
+            font-size: 10px;
+            transition: transform 0.2s;
+        }
+
+        .analyst-section[open] .toggle-icon {
+            transform: rotate(90deg);
+        }
+
+        .analyst-content {
+            padding: 20px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-gray);
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .analyst-content h3,
+        .analyst-content h4 {
+            color: var(--text-dark);
+            margin: 20px 0 10px 0;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        .analyst-content h3:first-child,
+        .analyst-content h4:first-child {
+            margin-top: 0;
+        }
+
+        .analyst-content p {
+            margin-bottom: 10px;
+        }
+
+        .analyst-content ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .analyst-content li {
+            margin-bottom: 8px;
+        }
+
+        .analyst-content strong {
+            color: var(--text-dark);
+        }
+
+        .bull-content {
+            border-left: 3px solid var(--bramble-green);
+        }
+
+        .bear-content {
+            border-left: 3px solid #8B0000;
+        }
+
+        .deliberation-content {
+            border-left: 3px solid var(--bramble-gold);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <img src="/design/logo.png" alt="Bramble Partners" class="logo">
+            <div class="header-text">Investment Memo</div>
+            <div class="meta">
+                <span><strong>Date:</strong> {{DATE}}</span>
+                <span><strong>Source:</strong> {{SOURCE}}</span>
+            </div>
+        </div>
+
+        <!-- Title -->
+        <div class="title-block">
+            <h1 class="company-name">{{COMPANY_NAME}}</h1>
+        </div>
+
+        <div class="content">
+            <!-- Opportunity -->
+            <div class="section">
+                <h2 class="section-title">The Opportunity</h2>
+                {{OPPORTUNITY}}
+            </div>
+
+            <!-- Snapshot -->
+            <div class="section">
+                <h2 class="section-title">Snapshot</h2>
+                <div class="snapshot">
+                    {{SNAPSHOT}}
+                </div>
+            </div>
+
+            <!-- Market -->
+            <div class="section">
+                <h2 class="section-title">The Market</h2>
+                {{MARKET}}
+            </div>
+
+            <!-- Competition -->
+            <div class="section">
+                <h2 class="section-title">Competitive Position</h2>
+                {{COMPETITION}}
+            </div>
+
+            <!-- Team -->
+            <div class="section">
+                <h2 class="section-title">The Team</h2>
+                {{TEAM}}
+            </div>
+
+            <!-- Existing Investors -->
+            <div class="section">
+                <h2 class="section-title">Existing Investors</h2>
+                {{INVESTORS}}
+            </div>
+
+            <!-- Bramble Fit -->
+            <div class="section">
+                <h2 class="section-title">Bramble Fit</h2>
+                {{FIT_TABLE}}
+            </div>
+
+            <!-- Bull/Bear Cases Side by Side -->
+            <div class="section cases-container">
+                <div class="case-column bull-section">
+                    <h2 class="section-title">The Bull Case</h2>
+                    {{BULL_CASE}}
+                </div>
+                <div class="case-column bear-section">
+                    <h2 class="section-title">The Bear Case</h2>
+                    {{BEAR_CASE}}
+                </div>
+            </div>
+
+            <!-- Key Debates -->
+            <div class="section debates-section">
+                <h2 class="section-title">Key Debates</h2>
+                {{KEY_DEBATES}}
+            </div>
+
+            <!-- Verdict -->
+            <div class="section verdict-section">
+                <h2 class="section-title">Recommendation</h2>
+                <div class="verdict {{VERDICT_CLASS}}">{{VERDICT}}</div>
+                <div class="confidence {{CONFIDENCE_CLASS}}">Confidence: {{CONFIDENCE}}</div>
+                <p class="verdict-rationale">{{VERDICT_RATIONALE}}</p>
+            </div>
+
+            <!-- Terms (only if PURSUE) -->
+            {{TERMS_SECTION}}
+
+            <!-- Risks -->
+            <div class="section">
+                <h2 class="section-title">Risks & Gaps</h2>
+                {{RISKS}}
+            </div>
+
+            <!-- DD Priorities -->
+            <div class="section">
+                <h2 class="section-title">Due Diligence Priorities</h2>
+                {{DD_PRIORITIES}}
+            </div>
+
+            <!-- Bottom Line -->
+            <div class="section">
+                <h2 class="section-title">Bottom Line</h2>
+                <div class="bottom-line">
+                    {{BOTTOM_LINE}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Bramble Partners — Confidential<br>
+            This memo is for internal use only. Not for distribution.
+        </div>
+
+        <!-- ANALYST_APPENDIX_START -->
+        <!-- Analyst Arguments (Collapsible) -->
+        <div class="analyst-appendix no-print">
+            <div class="appendix-header">
+                <span class="appendix-label">Appendix: Full Analyst Arguments</span>
+            </div>
+
+            <details class="analyst-section">
+                <summary class="analyst-toggle">
+                    <span class="toggle-icon">▶</span>
+                    Bull Analyst — Full Investment Case
+                </summary>
+                <div class="analyst-content bull-content">
+                    {{BULL_ANALYST}}
+                </div>
+            </details>
+
+            <details class="analyst-section">
+                <summary class="analyst-toggle">
+                    <span class="toggle-icon">▶</span>
+                    Bear Analyst — Full Case for Passing
+                </summary>
+                <div class="analyst-content bear-content">
+                    {{BEAR_ANALYST}}
+                </div>
+            </details>
+
+            <details class="analyst-section">
+                <summary class="analyst-toggle">
+                    <span class="toggle-icon">▶</span>
+                    IC Chair — Deliberation &amp; Reasoning
+                </summary>
+                <div class="analyst-content deliberation-content">
+                    {{DELIBERATION}}
+                </div>
+            </details>
+        </div>
+        <!-- ANALYST_APPENDIX_END -->
+    </div>
+
+    <button class="print-btn no-print" onclick="window.print()">Print / Save PDF</button>
+</body>
+</html>
